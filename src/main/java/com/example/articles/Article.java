@@ -1,9 +1,8 @@
 package com.example.articles;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
@@ -17,6 +16,10 @@ public class Article {
     private Date date;
 
     private String content;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
+    private Author author;
 
     public Integer getId() {
         return id;
@@ -48,5 +51,14 @@ public class Article {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 }
