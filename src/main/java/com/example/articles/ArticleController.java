@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import java.sql.Date;
 
 @Controller
 @RequestMapping(path = "/articles")
@@ -15,11 +16,12 @@ public class ArticleController {
     private ArticleRepository articleRepository;
 
     @PostMapping(path = "/add")
-    public @ResponseBody Integer addNewArticle(@RequestParam String title, @RequestParam String content) {
+    public @ResponseBody Integer addNewArticle(@RequestParam String title, @RequestParam String content, @RequestParam String date) {
         Article article = new Article();
 
         article.setTitle(title);
         article.setContent(content);
+        article.setDate(Date.valueOf(date));
 
         articleRepository.save(article);
 

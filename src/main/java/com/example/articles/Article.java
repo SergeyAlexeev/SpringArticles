@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.sql.Date;
 
 @Entity
 public class Article {
@@ -12,6 +13,8 @@ public class Article {
     private Integer id;
 
     private String title;
+
+    private Date date;
 
     private String content;
 
@@ -29,6 +32,14 @@ public class Article {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getContent() {
