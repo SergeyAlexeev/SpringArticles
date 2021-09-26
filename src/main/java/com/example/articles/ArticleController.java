@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.validation.Valid;
 import java.sql.Date;
 
 @Controller
@@ -20,10 +22,10 @@ public class ArticleController {
 
     @PostMapping(path = "/add")
     public @ResponseBody Integer addNewArticle(
-            @RequestParam String title,
-            @RequestParam String content,
-            @RequestParam String date,
-            @RequestParam Integer authorId
+            @Valid @RequestParam String title,
+            @Valid @RequestParam String content,
+            @Valid @RequestParam String date,
+            @Valid @RequestParam Integer authorId
     ) {
         Article article = new Article();
         Author author = authorRepository.findById(authorId).orElse(null);

@@ -3,6 +3,7 @@ package com.example.articles;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.sql.Date;
 
 @Entity
@@ -11,10 +12,12 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @NotBlank
     private String title;
 
     private Date date;
 
+    @NotBlank
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
