@@ -1,5 +1,10 @@
-package com.example.articles;
+package com.example.articles.controllers;
 
+import com.example.articles.entities.Article;
+import com.example.articles.entities.Author;
+import com.example.articles.entities.Stats;
+import com.example.articles.repositories.ArticleRepository;
+import com.example.articles.repositories.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -39,6 +44,7 @@ public class ArticleController {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date upcomingDate = formatter.parse(date);
 
+        // Validate user input
         article.setTitle(title);
         article.setContent(content);
         article.setDate(upcomingDate);

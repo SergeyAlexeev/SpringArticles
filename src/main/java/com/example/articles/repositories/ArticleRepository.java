@@ -1,5 +1,7 @@
-package com.example.articles;
+package com.example.articles.repositories;
 
+import com.example.articles.entities.Article;
+import com.example.articles.entities.Stats;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -12,4 +14,3 @@ public interface ArticleRepository extends PagingAndSortingRepository<Article, I
     )
     List<Stats> findArticleWeeklyStats();
 }
-
