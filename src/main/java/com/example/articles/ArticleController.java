@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 @Controller
@@ -51,5 +52,10 @@ public class ArticleController {
     @GetMapping(path = "/all")
     public @ResponseBody Iterable<Article> getAllArticles(@PageableDefault(value = 10, page = 0) Pageable pageable) {
         return articleRepository.findAll(pageable);
+    }
+
+    @GetMapping(path = "/stats")
+    public @ResponseBody List<Stats> getStats() {
+        return articleRepository.findArticleWeeklyStats();
     }
 }
