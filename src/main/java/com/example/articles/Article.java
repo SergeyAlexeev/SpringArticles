@@ -1,10 +1,12 @@
 package com.example.articles;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.sql.Date;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
 public class Article {
@@ -13,13 +15,16 @@ public class Article {
     private Integer id;
 
     @NotBlank
+    @Size(max = 100)
     private String title;
 
+    @PastOrPresent
     private Date date;
 
     @NotBlank
     private String content;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     private Author author;

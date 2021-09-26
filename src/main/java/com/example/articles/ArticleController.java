@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.validation.Valid;
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 @Controller
 @RequestMapping(path = "/articles")
@@ -26,13 +28,16 @@ public class ArticleController {
             @Valid @RequestParam String content,
             @Valid @RequestParam String date,
             @Valid @RequestParam Integer authorId
-    ) {
+    ) throws ParseException {
         Article article = new Article();
         Author author = authorRepository.findById(authorId).orElse(null);
 
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        Date upcomingDate = formatter.parse(date);
+
         article.setTitle(title);
         article.setContent(content);
-        article.setDate(Date.valueOf(date));
+        article.setDate(upcomingDate);
         article.setAuthor(author);
 
         articleRepository.save(article);
