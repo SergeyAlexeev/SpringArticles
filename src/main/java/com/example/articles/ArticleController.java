@@ -1,12 +1,15 @@
 package com.example.articles;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,7 +49,7 @@ public class ArticleController {
     }
 
     @GetMapping(path = "/all")
-    public @ResponseBody Iterable<Article> getAllArticles() {
-        return articleRepository.findAll();
+    public @ResponseBody Iterable<Article> getAllArticles(@PageableDefault(value = 10, page = 0) Pageable pageable) {
+        return articleRepository.findAll(pageable);
     }
 }
