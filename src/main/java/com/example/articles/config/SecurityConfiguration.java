@@ -11,25 +11,31 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.sql.DataSource;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private DataSource dataSource;
+
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable().authorizeRequests()
-            .antMatchers(HttpMethod.GET, "/articles/stats/", "/articles/stats").authenticated()
+            .antMatchers(HttpMethod.GET, "/articles/stats/", "/articles/stats").access("hasRole('ROLE_ADMIN')")
             .and().httpBasic();
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder authentication)
-            throws Exception
-    {
-        authentication.inMemoryAuthentication()
-                .withUser("admin")
-                .password(passwordEncoder().encode("pass"))
-                .authorities("ROLE_USER");
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+            .jdbcAuthentication()
+            .dataSource(dataSource)
+            .passwordEncoder(passwordEncoder())
+            .usersByUsernameQuery("select username, password, enabled from users where username=?")
+            .authoritiesByUsernameQuery("select username, role from users where username=?")
+        ;
     }
 
     @Bean
